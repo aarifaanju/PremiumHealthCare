@@ -3,131 +3,1061 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Complete Health Guide | Premium Health Application</title>
+    <title>Complete HealthCare Guide - AI Notebook</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#14B8A6', // Teal
+                        secondary: '#22C55E', // Green
+                        accent: '#06B6D4', // Cyan
+                        dark: {
+                            900: '#0B0F19',
+                            800: '#111827',
+                            700: '#1F2937',
+                        }
+                    },
+                    animation: {
+                        'gradient-x': 'gradient-x 15s ease infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'wave': 'wave 1.2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        'gradient-x': {
+                            '0%, 100%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'left center'
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'right center'
+                            },
+                        },
+                        'float': {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        'wave': {
+                            '0%, 100%': { height: '10px' },
+                            '50%': { height: '30px' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #050505; color: #e2e8f0; }
-        .glass { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05); }
-        .gradient-text { background: linear-gradient(to right, #14B8A6, #06B6D4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .status-on { box-shadow: 0 0 15px #22c55e; }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        /* Premium Glassmorphism & Custom Styles */
+        body {
+            background-color: #0B0F19;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(20, 184, 166, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(6, 182, 212, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(34, 197, 94, 0.1) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: #E5E7EB;
+        }
+
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .glass-card {
+            background: linear-gradient(145deg, rgba(31, 41, 55, 0.6) 0%, rgba(17, 24, 39, 0.8) 100%);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(20, 184, 166, 0.3);
+            box-shadow: 0 10px 40px -10px rgba(20, 184, 166, 0.2);
+        }
+
+        /* Custom Thin Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(to right, #14B8A6, #06B6D4);
+        }
+
+        /* SVG Circular Progress */
+        .progress-ring__circle {
+            transition: stroke-dashoffset 1.5s ease-in-out;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+
+        /* Particle Overlay */
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
     </style>
 </head>
-<body class="h-screen w-full flex overflow-hidden">
+<body class="h-screen overflow-hidden flex selection:bg-primary selection:text-white">
 
-    <!-- Sidebar -->
-    <aside class="w-80 glass border-r border-white/10 p-6 flex flex-col">
-        <h1 class="text-2xl font-bold gradient-text mb-10 tracking-tight">NutriVerse AI</h1>
-        
-        <div class="mb-8 p-4 rounded-xl bg-white/5 border border-white/10">
-            <div class="flex justify-between items-center mb-3">
-                <span class="text-[10px] uppercase font-bold text-slate-400">Gemini API Key</span>
-                <div id="status-dot" class="w-2.5 h-2.5 rounded-full bg-red-500"></div>
+    <!-- Particle Background Canvas -->
+    <canvas id="particles"></canvas>
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="w-72 glass-panel border-r border-white/5 flex flex-col h-full z-10 hidden md:flex shrink-0">
+        <!-- Logo -->
+        <div class="p-6 flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg shadow-primary/20">
+                <i data-lucide="activity" class="text-white w-6 h-6"></i>
             </div>
-            <input type="password" id="api-key" placeholder="Enter API Key" class="w-full bg-transparent border-b border-white/20 text-xs mb-3 focus:outline-none focus:border-teal-500">
-            <button onclick="connectAPI()" class="w-full py-2 bg-teal-600 hover:bg-teal-500 rounded-lg text-[10px] font-bold transition-all">CONNECT API</button>
+            <h1 class="text-xl font-bold tracking-tight text-white">Complete<br><span class="text-primary text-sm">HealthCare</span></h1>
         </div>
 
-        <nav class="space-y-2 flex-1 custom-scrollbar overflow-y-auto">
-            <p class="text-[10px] uppercase text-slate-500 font-bold px-2 mb-4">Notebooks</p>
-            <a class="flex items-center gap-3 p-3 rounded-lg bg-white/5 text-teal-400 cursor-pointer"><i class="ph-fill ph-heartbeat"></i> Health Reports</a>
-            <a class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition cursor-pointer"><i class="ph ph-bowl-food"></i> Nutrition Plans</a>
-            <a class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition cursor-pointer"><i class="ph ph-activity"></i> Fitness Tracker</a>
-        </nav>
+        <!-- User Profile -->
+        <div class="px-6 pb-6">
+            <div class="flex items-center space-x-3 p-3 rounded-xl bg-white/5 border border-white/5 cursor-pointer hover:bg-white/10 transition">
+                <div class="w-10 h-10 rounded-full bg-slate-700 overflow-hidden border border-white/10">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alex&backgroundColor=transparent" alt="User" class="w-full h-full object-cover">
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-sm font-semibold text-white">Alex Johnson</h3>
+                    <p class="text-xs text-slate-400">Premium Member</p>
+                </div>
+                <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
+            </div>
+        </div>
+
+        <!-- Search & Create -->
+        <div class="px-6 pb-4 space-y-3">
+            <div class="relative">
+                <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+                <input type="text" placeholder="Search notebooks..." class="w-full bg-dark-800/50 border border-white/10 rounded-lg py-2 pl-9 pr-4 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition">
+            </div>
+            <button class="w-full py-2.5 rounded-lg bg-white/5 border border-white/10 text-white text-sm font-medium flex items-center justify-center space-x-2 hover:bg-white/10 hover:border-primary/30 transition group">
+                <i data-lucide="plus" class="w-4 h-4 group-hover:text-primary transition"></i>
+                <span>Create Notebook</span>
+            </button>
+        </div>
+
+        <!-- Navigation Categories -->
+        <div class="flex-1 overflow-y-auto px-4 py-2 space-y-1">
+            <p class="px-2 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Categories</p>
+            
+            <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg bg-primary/10 text-primary border border-primary/20 transition">
+                <i data-lucide="clipboard-plus" class="w-4 h-4"></i>
+                <span class="text-sm font-medium">Health Reports</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/5 hover:text-white transition">
+                <i data-lucide="salad" class="w-4 h-4"></i>
+                <span class="text-sm font-medium">Nutrition Plans</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/5 hover:text-white transition">
+                <i data-lucide="dumbbell" class="w-4 h-4"></i>
+                <span class="text-sm font-medium">Fitness Tracker</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/5 hover:text-white transition">
+                <i data-lucide="moon" class="w-4 h-4"></i>
+                <span class="text-sm font-medium">Sleep Analysis</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/5 hover:text-white transition">
+                <i data-lucide="dna" class="w-4 h-4"></i>
+                <span class="text-sm font-medium">Wellness Research</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/5 hover:text-white transition">
+                <i data-lucide="users" class="w-4 h-4"></i>
+                <span class="text-sm font-medium">Family Health</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/5 hover:text-white transition">
+                <i data-lucide="book-open" class="w-4 h-4"></i>
+                <span class="text-sm font-medium">Medical Research</span>
+            </a>
+            
+            <div class="pt-4 mt-4 border-t border-white/5">
+                <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-white/5 hover:text-white transition">
+                    <i data-lucide="settings" class="w-4 h-4"></i>
+                    <span class="text-sm font-medium">Settings</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Upgrade Card -->
+        <div class="p-6">
+            <div class="relative p-4 rounded-xl overflow-hidden group cursor-pointer">
+                <div class="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20 opacity-50"></div>
+                <div class="absolute inset-0 border border-white/10 rounded-xl group-hover:border-primary/50 transition"></div>
+                <div class="relative z-10">
+                    <h4 class="text-sm font-bold text-white mb-1 flex items-center">
+                        <i data-lucide="sparkles" class="w-4 h-4 text-accent mr-1"></i> Pro Plan
+                    </h4>
+                    <p class="text-xs text-slate-300 mb-3">Unlock advanced AI genomics & unlimited uploads.</p>
+                    <button class="w-full py-1.5 text-xs font-semibold rounded-lg bg-white text-dark-900 hover:bg-slate-200 transition">Upgrade Now</button>
+                </div>
+                <!-- Abstract shape -->
+                <div class="absolute -bottom-4 -right-4 w-16 h-16 bg-primary blur-2xl opacity-40 rounded-full group-hover:opacity-60 transition"></div>
+            </div>
+        </div>
     </aside>
 
-    <!-- Workspace -->
-    <main class="flex-1 flex flex-col p-8 overflow-y-auto">
-        <header class="flex justify-between items-center mb-8">
-            <div>
-                <h2 class="text-3xl font-bold">Health Dashboard</h2>
-                <p class="text-slate-400 text-sm mt-1">Real-time analysis powered by Gemini Flash.</p>
+    <!-- CENTER WORKSPACE -->
+    <main class="flex-1 flex flex-col h-full overflow-hidden relative z-10">
+        
+        <!-- Top Header -->
+        <header class="h-20 px-8 flex items-center justify-between border-b border-white/5 glass-panel shrink-0 sticky top-0 z-20">
+            <div class="flex items-center space-x-4">
+                <h2 class="text-2xl font-bold text-white tracking-tight flex items-center">
+                    Annual Health Master <span class="ml-3 px-2 py-0.5 rounded text-[10px] font-bold bg-primary/20 text-primary border border-primary/30 uppercase tracking-widest">Active</span>
+                </h2>
             </div>
-            <div class="flex gap-3">
-                <input type="file" id="pdf-input" class="hidden" accept=".pdf">
-                <button onclick="document.getElementById('pdf-input').click()" class="px-5 py-2 glass rounded-xl text-xs font-bold hover:bg-white/10 transition flex items-center gap-2">
-                    <i class="ph ph-upload"></i> UPLOAD PDF
+            
+            <div class="flex items-center space-x-4">
+                <!-- API Key Connector -->
+                <div class="flex items-center space-x-2 bg-dark-800/50 border border-white/10 rounded-full pl-3 pr-1 py-1 mr-4">
+                    <div id="api-status-dot" class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)] transition-colors duration-300"></div>
+                    <input type="password" id="api-key-input" placeholder="Gemini API Key..." class="bg-transparent border-none outline-none text-xs text-white placeholder-slate-500 w-32 focus:w-48 transition-all duration-300">
+                    <button id="connect-api-btn" class="bg-white/10 hover:bg-white/20 text-xs px-3 py-1.5 rounded-full transition text-white border border-white/5">Connect</button>
+                </div>
+
+                <div class="h-6 w-px bg-white/10"></div>
+
+                <button id="header-upload-btn" class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 transition tooltip-trigger" title="Upload Document">
+                    <i data-lucide="upload-cloud" class="w-4 h-4"></i>
                 </button>
-                <button id="voice-btn" class="px-5 py-2 glass rounded-xl text-xs font-bold text-teal-400 transition flex items-center gap-2">
-                    <i class="ph ph-microphone"></i> VOICE
+                <button class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 transition tooltip-trigger" title="Voice Dictation">
+                    <i data-lucide="mic" class="w-4 h-4"></i>
+                </button>
+                <button class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 transition tooltip-trigger" title="Share Notebook">
+                    <i data-lucide="share-2" class="w-4 h-4"></i>
+                </button>
+                <button class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 transition tooltip-trigger" title="Notebook Settings">
+                    <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
                 </button>
             </div>
         </header>
 
-        <section id="source-list" class="grid grid-cols-4 gap-4 mb-8">
-            <!-- Dynamic PDF cards injected here -->
-        </section>
+        <!-- Scrollable Content -->
+        <div class="flex-1 overflow-y-auto p-8 space-y-10 scroll-smooth pb-32">
+            
+            <!-- SMART HEALTH DASHBOARD (Scores) -->
+            <section>
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-semibold text-white flex items-center">
+                        <i data-lucide="activity-square" class="w-5 h-5 mr-2 text-primary"></i> Smart Health Dashboard
+                    </h3>
+                    <span class="text-xs text-slate-400">Updated today</span>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                    <!-- Score Card 1 -->
+                    <div class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center relative overflow-hidden group transition-all duration-500" id="card-health">
+                        <div class="absolute top-0 right-0 p-2 opacity-20 group-hover:opacity-40 transition text-primary">
+                            <i data-lucide="heart-pulse" class="w-12 h-12"></i>
+                        </div>
+                        <div class="relative w-20 h-20 mb-3">
+                            <svg class="w-full h-full" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="none" class="text-white/5" />
+                                <circle id="score-ring-health" cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="none" class="text-primary progress-ring__circle" stroke-dasharray="251.2" stroke-dashoffset="251.2" data-target="20" /> <!-- 92% -->
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center flex-col">
+                                <span id="score-text-health" class="text-2xl font-bold text-white transition-all duration-500">92</span>
+                            </div>
+                        </div>
+                        <h4 class="text-xs font-medium text-slate-300 uppercase tracking-wider">Health Score</h4>
+                    </div>
 
-        <!-- Chat Panel -->
-        <div id="chat-box" class="glass h-64 p-6 rounded-2xl overflow-y-auto mb-6 custom-scrollbar space-y-4">
-            <div class="text-teal-400 text-sm">NutriVerse Copilot: Ready to analyze your data. Connect your API to begin.</div>
-        </div>
+                    <!-- Score Card 2 -->
+                    <div class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center relative overflow-hidden group transition-all duration-500" id="card-nutrition">
+                        <div class="absolute top-0 right-0 p-2 opacity-20 group-hover:opacity-40 transition text-secondary">
+                            <i data-lucide="apple" class="w-12 h-12"></i>
+                        </div>
+                        <div class="relative w-20 h-20 mb-3">
+                            <svg class="w-full h-full" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="none" class="text-white/5" />
+                                <circle id="score-ring-nutrition" cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="none" class="text-secondary progress-ring__circle" stroke-dasharray="251.2" stroke-dashoffset="251.2" data-target="30" /> <!-- 88% -->
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center flex-col">
+                                <span id="score-text-nutrition" class="text-2xl font-bold text-white transition-all duration-500">88</span>
+                            </div>
+                        </div>
+                        <h4 class="text-xs font-medium text-slate-300 uppercase tracking-wider">Nutrition</h4>
+                    </div>
 
-        <div class="glass p-2 rounded-2xl flex items-center">
-            <input type="text" id="chat-input" placeholder="Ask about your reports, nutrition, or blood work..." class="flex-1 bg-transparent px-4 text-sm focus:outline-none">
-            <button onclick="sendMessage()" class="p-3 bg-teal-600 rounded-xl hover:bg-teal-500"><i class="ph ph-paper-plane-right"></i></button>
+                    <!-- Score Card 3 -->
+                    <div class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center relative overflow-hidden group transition-all duration-500" id="card-fitness">
+                        <div class="absolute top-0 right-0 p-2 opacity-20 group-hover:opacity-40 transition text-orange-500">
+                            <i data-lucide="flame" class="w-12 h-12"></i>
+                        </div>
+                        <div class="relative w-20 h-20 mb-3">
+                            <svg class="w-full h-full" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="none" class="text-white/5" />
+                                <circle id="score-ring-fitness" cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="none" class="text-orange-500 progress-ring__circle" stroke-dasharray="251.2" stroke-dashoffset="251.2" data-target="40" /> <!-- 84% -->
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center flex-col">
+                                <span id="score-text-fitness" class="text-2xl font-bold text-white transition-all duration-500">84</span>
+                            </div>
+                        </div>
+                        <h4 class="text-xs font-medium text-slate-300 uppercase tracking-wider">Fitness</h4>
+                    </div>
+
+                    <!-- Score Card 4 -->
+                    <div class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center relative overflow-hidden group transition-all duration-500" id="card-sleep">
+                        <div class="absolute top-0 right-0 p-2 opacity-20 group-hover:opacity-40 transition text-indigo-400">
+                            <i data-lucide="moon-star" class="w-12 h-12"></i>
+                        </div>
+                        <div class="relative w-20 h-20 mb-3">
+                            <svg class="w-full h-full" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="none" class="text-white/5" />
+                                <circle id="score-ring-sleep" cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="none" class="text-indigo-400 progress-ring__circle" stroke-dasharray="251.2" stroke-dashoffset="251.2" data-target="25" /> <!-- 90% -->
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center flex-col">
+                                <span id="score-text-sleep" class="text-2xl font-bold text-white transition-all duration-500">90</span>
+                            </div>
+                        </div>
+                        <h4 class="text-xs font-medium text-slate-300 uppercase tracking-wider">Sleep</h4>
+                    </div>
+
+                    <!-- Score Card 5 -->
+                    <div class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center relative overflow-hidden group transition-all duration-500" id="card-hydration">
+                        <div class="absolute top-0 right-0 p-2 opacity-20 group-hover:opacity-40 transition text-accent">
+                            <i data-lucide="droplets" class="w-12 h-12"></i>
+                        </div>
+                        <div class="relative w-20 h-20 mb-3">
+                            <svg class="w-full h-full" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="none" class="text-white/5" />
+                                <circle id="score-ring-hydration" cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="none" class="text-accent progress-ring__circle" stroke-dasharray="251.2" stroke-dashoffset="251.2" data-target="12" /> <!-- 95% -->
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center flex-col">
+                                <span id="score-text-hydration" class="text-2xl font-bold text-white transition-all duration-500">95</span>
+                            </div>
+                        </div>
+                        <h4 class="text-xs font-medium text-slate-300 uppercase tracking-wider">Hydration</h4>
+                    </div>
+                </div>
+            </section>
+
+            <!-- NOTEBOOK CARDS -->
+            <section>
+                <h3 class="text-lg font-semibold text-white mb-6 flex items-center">
+                    <i data-lucide="layers" class="w-5 h-5 mr-2 text-primary"></i> Active Modules
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                    <div class="glass-card p-5 rounded-2xl cursor-pointer">
+                        <div class="w-10 h-10 rounded-lg bg-red-500/20 text-red-400 flex items-center justify-center mb-4">
+                            <i data-lucide="microscope" class="w-5 h-5"></i>
+                        </div>
+                        <h4 class="font-semibold text-white mb-1">Blood Report</h4>
+                        <p class="text-xs text-slate-400">Analyzed 2 days ago. Lipid panel improved.</p>
+                    </div>
+                    <div class="glass-card p-5 rounded-2xl cursor-pointer border-primary/30 shadow-[0_0_15px_rgba(20,184,166,0.1)]">
+                        <div class="w-10 h-10 rounded-lg bg-secondary/20 text-secondary flex items-center justify-center mb-4">
+                            <i data-lucide="utensils" class="w-5 h-5"></i>
+                        </div>
+                        <h4 class="font-semibold text-white mb-1">Nutrition Tracker</h4>
+                        <p class="text-xs text-slate-400">Active meal plan. Macros on target.</p>
+                    </div>
+                    <div class="glass-card p-5 rounded-2xl cursor-pointer">
+                        <div class="w-10 h-10 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center mb-4">
+                            <i data-lucide="book-text" class="w-5 h-5"></i>
+                        </div>
+                        <h4 class="font-semibold text-white mb-1">Medical Research</h4>
+                        <p class="text-xs text-slate-400">3 new papers on longevity added.</p>
+                    </div>
+                    <div class="glass-card p-5 rounded-2xl cursor-pointer">
+                        <div class="w-10 h-10 rounded-lg bg-orange-500/20 text-orange-400 flex items-center justify-center mb-4">
+                            <i data-lucide="trending-up" class="w-5 h-5"></i>
+                        </div>
+                        <h4 class="font-semibold text-white mb-1">Fitness Progress</h4>
+                        <p class="text-xs text-slate-400">Strength metrics +5% this month.</p>
+                    </div>
+                    <div class="glass-card p-5 rounded-2xl cursor-pointer">
+                        <div class="w-10 h-10 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center mb-4">
+                            <i data-lucide="brain" class="w-5 h-5"></i>
+                        </div>
+                        <h4 class="font-semibold text-white mb-1">Sleep Insights</h4>
+                        <p class="text-xs text-slate-400">REM sleep increased by 15 mins.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ADVANCED HEALTH FEATURES (Bento Grid) -->
+            <section>
+                <h3 class="text-lg font-semibold text-white mb-6 flex items-center">
+                    <i data-lucide="layout-dashboard" class="w-5 h-5 mr-2 text-primary"></i> Intelligence Hub
+                </h3>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    
+                    <!-- AI Health Twin -->
+                    <div class="glass-card p-6 rounded-3xl lg:row-span-2 relative overflow-hidden group">
+                        <div class="absolute -right-10 -top-10 w-40 h-40 bg-primary/20 blur-3xl rounded-full"></div>
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <h4 class="text-lg font-bold text-white">AI Health Twin</h4>
+                                <p class="text-xs text-slate-400">Digital biomarker simulation</p>
+                            </div>
+                            <span class="px-2 py-1 rounded bg-white/10 border border-white/10 text-xs font-medium text-primary animate-pulse">Syncing</span>
+                        </div>
+                        
+                        <div class="relative h-64 flex items-center justify-center mb-6">
+                            <!-- Abstract Digital Human Representation -->
+                            <div class="absolute inset-0 flex items-center justify-center opacity-30">
+                                <i data-lucide="user" class="w-48 h-48 text-primary group-hover:scale-105 transition duration-500"></i>
+                            </div>
+                            <!-- Scanning line -->
+                            <div class="absolute w-full h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent top-0 animate-[float_3s_ease-in-out_infinite]"></div>
+                            
+                            <!-- Data points -->
+                            <div class="absolute top-10 left-4 bg-white/10 backdrop-blur-md border border-white/10 px-2 py-1 rounded text-xs">
+                                <span class="text-slate-300">Age:</span> <span class="text-white font-bold text-gradient">32</span>
+                            </div>
+                            <div class="absolute bottom-10 right-4 bg-white/10 backdrop-blur-md border border-white/10 px-2 py-1 rounded text-xs">
+                                <span class="text-slate-300">BMI:</span> <span class="text-white font-bold text-gradient">22.4</span>
+                            </div>
+                            <div class="absolute top-1/2 -left-2 bg-white/10 backdrop-blur-md border border-white/10 px-2 py-1 rounded text-xs">
+                                <span class="text-slate-300">Weight:</span> <span class="text-white font-bold text-gradient">72kg</span>
+                            </div>
+                            <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white/10 backdrop-blur-md border border-white/10 px-2 py-1 rounded text-xs flex items-center">
+                                <i data-lucide="shield-check" class="w-3 h-3 text-secondary mr-1"></i> Low Risk
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Metabolic Age</span>
+                                <span class="text-white font-semibold">28 <span class="text-secondary text-xs">(-4)</span></span>
+                            </div>
+                            <div class="w-full bg-white/5 rounded-full h-1.5">
+                                <div class="bg-gradient-to-r from-primary to-accent h-1.5 rounded-full" style="width: 85%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nutrition Intelligence -->
+                    <div class="glass-card p-6 rounded-3xl col-span-1 lg:col-span-2 flex flex-col justify-between">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h4 class="text-lg font-bold text-white">Nutrition Intelligence</h4>
+                                <p class="text-xs text-slate-400">Today's Macros & Intake</p>
+                            </div>
+                            <button class="text-primary hover:text-white transition"><i data-lucide="plus-circle" class="w-5 h-5"></i></button>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
+                            <div class="bg-white/5 rounded-xl p-3 border border-white/5">
+                                <p class="text-xs text-slate-400 mb-1">Calories</p>
+                                <p class="text-lg font-bold text-white">1,850<span class="text-xs font-normal text-slate-500">/2200</span></p>
+                                <div class="w-full bg-dark-900 rounded-full h-1 mt-2"><div class="bg-primary h-1 rounded-full" style="width: 84%"></div></div>
+                            </div>
+                            <div class="bg-white/5 rounded-xl p-3 border border-white/5">
+                                <p class="text-xs text-slate-400 mb-1">Protein</p>
+                                <p class="text-lg font-bold text-white">120g<span class="text-xs font-normal text-slate-500">/150g</span></p>
+                                <div class="w-full bg-dark-900 rounded-full h-1 mt-2"><div class="bg-secondary h-1 rounded-full" style="width: 80%"></div></div>
+                            </div>
+                            <div class="bg-white/5 rounded-xl p-3 border border-white/5">
+                                <p class="text-xs text-slate-400 mb-1">Carbs</p>
+                                <p class="text-lg font-bold text-white">180g<span class="text-xs font-normal text-slate-500">/200g</span></p>
+                                <div class="w-full bg-dark-900 rounded-full h-1 mt-2"><div class="bg-orange-400 h-1 rounded-full" style="width: 90%"></div></div>
+                            </div>
+                            <div class="bg-white/5 rounded-xl p-3 border border-white/5">
+                                <p class="text-xs text-slate-400 mb-1">Fat</p>
+                                <p class="text-lg font-bold text-white">45g<span class="text-xs font-normal text-slate-500">/65g</span></p>
+                                <div class="w-full bg-dark-900 rounded-full h-1 mt-2"><div class="bg-yellow-400 h-1 rounded-full" style="width: 69%"></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Medical Report Timeline -->
+                    <div class="glass-card p-6 rounded-3xl">
+                        <h4 class="text-lg font-bold text-white mb-4">Health Timeline</h4>
+                        <div class="relative border-l border-white/10 ml-3 space-y-6 pb-2">
+                            <div class="relative pl-6">
+                                <div class="absolute -left-[5px] top-1 w-2.5 h-2.5 rounded-full bg-primary shadow-[0_0_8px_rgba(20,184,166,0.8)]"></div>
+                                <p class="text-xs text-primary font-medium mb-0.5">Today</p>
+                                <h5 class="text-sm font-semibold text-white">Nutrition Review</h5>
+                                <p class="text-xs text-slate-400 mt-1">AI adjusted macros based on workout data.</p>
+                            </div>
+                            <div class="relative pl-6">
+                                <div class="absolute -left-[4px] top-1 w-2 h-2 rounded-full bg-white/30"></div>
+                                <p class="text-xs text-slate-500 font-medium mb-0.5">Oct 12</p>
+                                <h5 class="text-sm font-semibold text-white">Blood Test Results</h5>
+                                <p class="text-xs text-slate-400 mt-1">Uploaded Comprehensive Metabolic Panel.</p>
+                            </div>
+                            <div class="relative pl-6">
+                                <div class="absolute -left-[4px] top-1 w-2 h-2 rounded-full bg-white/30"></div>
+                                <p class="text-xs text-slate-500 font-medium mb-0.5">Sep 28</p>
+                                <h5 class="text-sm font-semibold text-white">Doctor Visit</h5>
+                                <p class="text-xs text-slate-400 mt-1">Annual checkup notes summarized.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Research Hub (NotebookLM Style) -->
+                    <div class="glass-card p-6 rounded-3xl">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="text-lg font-bold text-white">Research Sources</h4>
+                            <span class="px-2 py-0.5 rounded-full bg-white/10 text-xs font-semibold text-slate-300">12 Files</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center p-3 rounded-lg bg-white/5 border border-white/5 hover:bg-white/10 transition cursor-pointer">
+                                <div class="w-8 h-8 rounded bg-red-500/20 text-red-400 flex items-center justify-center mr-3">
+                                    <i data-lucide="file-text" class="w-4 h-4"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium text-white truncate">Huberman_Longevity.pdf</p>
+                                    <p class="text-[10px] text-slate-500">Research Paper • 2.4 MB</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 rounded-lg bg-white/5 border border-white/5 hover:bg-white/10 transition cursor-pointer">
+                                <div class="w-8 h-8 rounded bg-blue-500/20 text-blue-400 flex items-center justify-center mr-3">
+                                    <i data-lucide="image" class="w-4 h-4"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium text-white truncate">DEXA_Scan_Q3.jpg</p>
+                                    <p class="text-[10px] text-slate-500">Image • 1.1 MB</p>
+                                </div>
+                            </div>
+                             <div class="flex items-center p-3 rounded-lg bg-white/5 border border-white/5 hover:bg-white/10 transition cursor-pointer">
+                                <div class="w-8 h-8 rounded bg-purple-500/20 text-purple-400 flex items-center justify-center mr-3">
+                                    <i data-lucide="headphones" class="w-4 h-4"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium text-white truncate">Doctor_Consult.m4a</p>
+                                    <p class="text-[10px] text-slate-500">Audio • 15 mins</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Podcast & Knowledge Graph Row -->
+                    <div class="col-span-1 lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-6">
+                        
+                        <!-- AI Podcast Generator -->
+                        <div class="glass-card p-6 rounded-3xl relative overflow-hidden flex items-center justify-between group">
+                            <div class="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent"></div>
+                            <div class="relative z-10 w-2/3">
+                                <h4 class="text-lg font-bold text-white mb-1">Deep Dive Podcast</h4>
+                                <p class="text-xs text-slate-400 mb-4">Generate an AI audio summary of your latest blood work and nutrition data.</p>
+                                <button class="px-4 py-2 bg-white text-dark-900 text-sm font-bold rounded-lg hover:bg-slate-200 transition shadow-[0_0_15px_rgba(255,255,255,0.3)] flex items-center">
+                                    <i data-lucide="play" class="w-4 h-4 mr-2"></i> Generate Audio
+                                </button>
+                            </div>
+                            <!-- Audio Waveform Animation -->
+                            <div class="relative z-10 flex items-center h-16 space-x-1 opacity-70 group-hover:opacity-100 transition">
+                                <div class="w-1.5 bg-primary rounded-full animate-wave" style="animation-delay: 0.1s"></div>
+                                <div class="w-1.5 bg-accent rounded-full animate-wave" style="animation-delay: 0.3s"></div>
+                                <div class="w-1.5 bg-primary rounded-full animate-wave" style="animation-delay: 0.5s"></div>
+                                <div class="w-1.5 bg-accent rounded-full animate-wave" style="animation-delay: 0.2s"></div>
+                                <div class="w-1.5 bg-primary rounded-full animate-wave" style="animation-delay: 0.4s"></div>
+                                <div class="w-1.5 bg-accent rounded-full animate-wave" style="animation-delay: 0.6s"></div>
+                            </div>
+                        </div>
+
+                        <!-- Family Health Hub -->
+                        <div class="glass-card p-6 rounded-3xl">
+                            <h4 class="text-lg font-bold text-white mb-4 flex items-center">
+                                <i data-lucide="users" class="w-5 h-5 mr-2 text-primary"></i> Family Hub
+                            </h4>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="p-3 rounded-xl bg-white/5 border border-white/5 flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 text-xs font-bold">Sp</div>
+                                    <div>
+                                        <p class="text-sm font-medium text-white">Sarah</p>
+                                        <p class="text-xs text-secondary font-semibold">94 Score</p>
+                                    </div>
+                                </div>
+                                <div class="p-3 rounded-xl bg-white/5 border border-white/5 flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center text-green-400 text-xs font-bold">Ch</div>
+                                    <div>
+                                        <p class="text-sm font-medium text-white">Leo</p>
+                                        <p class="text-xs text-secondary font-semibold">98 Score</p>
+                                    </div>
+                                </div>
+                                <div class="p-3 rounded-xl bg-white/5 border border-white/5 flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 text-xs font-bold">Mo</div>
+                                    <div>
+                                        <p class="text-sm font-medium text-white">Mom</p>
+                                        <p class="text-xs text-orange-400 font-semibold">78 Score</p>
+                                    </div>
+                                </div>
+                                <div class="p-3 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center border-dashed text-slate-400 hover:text-white hover:bg-white/10 transition cursor-pointer">
+                                    <i data-lucide="plus" class="w-5 h-5"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
 
+    <!-- RIGHT AI COPILOT PANEL -->
+    <aside class="w-96 glass-panel border-l border-white/5 flex flex-col h-full z-20 shrink-0 shadow-[-10px_0_30px_rgba(0,0,0,0.5)]">
+        <!-- Header -->
+        <div class="p-5 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-primary to-accent flex items-center justify-center shadow-lg shadow-primary/30 relative">
+                    <i data-lucide="bot" class="text-white w-5 h-5"></i>
+                    <div class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-secondary rounded-full border-2 border-dark-900"></div>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-white">Health Copilot</h3>
+                    <p class="text-[10px] text-primary">Powered by Gemini 2.5 Flash</p>
+                </div>
+            </div>
+            <button class="text-slate-400 hover:text-white transition"><i data-lucide="more-vertical" class="w-5 h-5"></i></button>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="flex-1 overflow-y-auto p-5 space-y-6" id="chat-container">
+            
+            <!-- AI Welcome Message -->
+            <div class="flex space-x-3">
+                <div class="w-6 h-6 rounded-md bg-gradient-to-tr from-primary to-accent flex-shrink-0 flex items-center justify-center mt-1">
+                    <i data-lucide="bot" class="text-white w-3 h-3"></i>
+                </div>
+                <div class="flex-1">
+                    <p class="text-sm text-slate-200 leading-relaxed bg-white/5 p-3 rounded-2xl rounded-tl-none border border-white/5 shadow-sm">
+                        Hello Alex! I've analyzed your latest blood report and synced it with your nutrition data. Your lipid profile is improving. What would you like to explore today?
+                    </p>
+                </div>
+            </div>
+
+            <!-- Suggested Prompts -->
+            <div class="pt-2">
+                <p class="text-xs text-slate-500 mb-3 px-1">Suggested for you:</p>
+                <div class="space-y-2">
+                    <button class="w-full text-left p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:bg-white/10 hover:border-primary/30 transition text-sm text-slate-300 group prompt-btn">
+                        <i data-lucide="bar-chart-2" class="w-4 h-4 inline-block mr-2 text-primary opacity-70 group-hover:opacity-100"></i>
+                        Analyze my latest lipid panel
+                    </button>
+                    <button class="w-full text-left p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:bg-white/10 hover:border-primary/30 transition text-sm text-slate-300 group prompt-btn">
+                        <i data-lucide="utensils" class="w-4 h-4 inline-block mr-2 text-secondary opacity-70 group-hover:opacity-100"></i>
+                        Create a meal plan for recovery
+                    </button>
+                    <button class="w-full text-left p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:bg-white/10 hover:border-primary/30 transition text-sm text-slate-300 group prompt-btn">
+                        <i data-lucide="file-text" class="w-4 h-4 inline-block mr-2 text-accent opacity-70 group-hover:opacity-100"></i>
+                        Summarize the Huberman PDF
+                    </button>
+                </div>
+            </div>
+
+            <!-- Loading Indicator (Hidden by default) -->
+            <div id="loading-indicator" class="hidden flex space-x-3">
+                 <div class="w-6 h-6 rounded-md bg-gradient-to-tr from-primary to-accent flex-shrink-0 flex items-center justify-center mt-1">
+                    <i data-lucide="bot" class="text-white w-3 h-3"></i>
+                </div>
+                <div class="flex-1">
+                    <div class="bg-white/5 p-3 rounded-2xl rounded-tl-none border border-white/5 inline-flex space-x-1 items-center h-10">
+                        <div class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></div>
+                        <div class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                        <div class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Input Area -->
+        <div class="p-5 border-t border-white/5 bg-dark-900/50 backdrop-blur-md relative">
+            
+            <!-- Hidden File Input -->
+            <input type="file" id="file-upload" class="hidden" accept="application/pdf, image/*">
+            
+            <!-- File Preview Badge -->
+            <div id="file-preview" class="hidden absolute -top-10 left-5 bg-white/10 backdrop-blur-md border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white flex items-center shadow-lg transition-all z-10">
+                <i data-lucide="file" class="w-3 h-3 mr-2 text-primary"></i>
+                <span id="file-name" class="truncate max-w-[150px] font-medium"></span>
+                <button id="remove-file" class="ml-3 text-slate-400 hover:text-red-400 transition"><i data-lucide="x" class="w-3 h-3"></i></button>
+            </div>
+
+            <div class="relative flex items-end bg-white/5 border border-white/10 rounded-2xl p-1 focus-within:border-primary/50 focus-within:bg-white/10 transition-all shadow-inner">
+                <button id="paperclip-btn" class="p-2.5 text-slate-400 hover:text-white hover:bg-white/10 rounded-xl transition group">
+                    <i data-lucide="paperclip" class="w-5 h-5"></i>
+                </button>
+                
+                <textarea id="chat-input" rows="1" placeholder="Ask anything about your health..." class="flex-1 max-h-32 bg-transparent border-none text-sm text-white placeholder-slate-500 focus:ring-0 resize-none py-3 px-2 outline-none"></textarea>
+                
+                <div class="flex items-center pr-1 pb-1">
+                    <button class="p-2 text-slate-400 hover:text-accent transition group relative">
+                        <!-- Mic Animation Rings -->
+                        <div class="absolute inset-0 bg-accent rounded-full opacity-0 group-hover:animate-ping"></div>
+                        <i data-lucide="mic" class="w-5 h-5 relative z-10 group-hover:text-accent"></i>
+                    </button>
+                    <button id="send-btn" class="p-2 bg-primary hover:bg-primary/80 text-white rounded-xl transition ml-1 shadow-lg shadow-primary/20">
+                        <i data-lucide="arrow-up" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+            <p class="text-center text-[10px] text-slate-500 mt-3 flex items-center justify-center">
+                <i data-lucide="shield" class="w-3 h-3 mr-1"></i> Medical data is encrypted locally.
+            </p>
+        </div>
+    </aside>
+
     <script>
-        // API CONNECTION
-        function connectAPI() {
-            const key = document.getElementById('api-key').value;
-            const dot = document.getElementById('status-dot');
-            if(key.length > 5) {
-                dot.className = 'w-2.5 h-2.5 rounded-full bg-green-500 status-on';
-                appendChat("System: API Connected successfully.");
-            } else {
-                alert("Please enter a valid API key.");
-            }
-        }
+        // Initialize Icons
+        lucide.createIcons();
 
-        // CHAT LOGIC
-        function appendChat(msg) {
-            const box = document.getElementById('chat-box');
-            box.innerHTML += `<div class="text-sm border-l-2 border-teal-500 pl-3">${msg}</div>`;
-            box.scrollTop = box.scrollHeight;
-        }
+        // --- UI Animations ---
+        // Animate circular progress bars on load
+        setTimeout(() => {
+            const circles = document.querySelectorAll('.progress-ring__circle');
+            circles.forEach(circle => {
+                const targetOffset = circle.getAttribute('data-target');
+                circle.style.strokeDashoffset = targetOffset;
+            });
+        }, 500);
 
-        function sendMessage() {
-            const input = document.getElementById('chat-input');
-            if(input.value) {
-                appendChat(`You: ${input.value}`);
-                input.value = "";
-            }
-        }
-
-        // PDF UPLOAD
-        document.getElementById('pdf-input').addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if(!file) return;
-            const list = document.getElementById('source-list');
-            list.innerHTML += `<div class="glass p-4 rounded-xl border border-teal-500/30 text-center"><i class="ph-fill ph-file-pdf text-2xl text-red-400"></i><p class="text-[10px] mt-2 truncate">${file.name}</p></div>`;
-            appendChat(`System: Document "${file.name}" indexed successfully.`);
+        // Auto-resize textarea
+        const textarea = document.getElementById('chat-input');
+        textarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+            if(this.value === '') this.style.height = 'auto';
         });
 
-        // VOICE ENGINE
-        const voiceBtn = document.getElementById('voice-btn');
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        // --- Gemini API Logic ---
+        const apiKey = "";
+        const apiKeyInput = document.getElementById('api-key-input');
+        const connectBtn = document.getElementById('connect-api-btn');
+        const statusDot = document.getElementById('api-status-dot');
+        const chatInput = document.getElementById('chat-input');
+        const sendBtn = document.getElementById('send-btn');
+        const chatContainer = document.getElementById('chat-container');
+        const loadingIndicator = document.getElementById('loading-indicator');
 
-        if (SpeechRecognition) {
-            const recognition = new SpeechRecognition();
-            voiceBtn.onclick = () => {
-                recognition.start();
-                voiceBtn.classList.add('text-red-500');
+        // File Upload State
+        let attachedFile = null;
+        const fileInput = document.getElementById('file-upload');
+        const paperclipBtn = document.getElementById('paperclip-btn');
+        const headerUploadBtn = document.getElementById('header-upload-btn');
+        const filePreview = document.getElementById('file-preview');
+        const fileNameSpan = document.getElementById('file-name');
+        const removeFileBtn = document.getElementById('remove-file');
+
+        // Trigger File Input
+        paperclipBtn.addEventListener('click', () => fileInput.click());
+        headerUploadBtn.addEventListener('click', () => fileInput.click());
+
+        // Handle File Selection and Convert to Base64
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const base64Data = event.target.result.split(',')[1];
+                attachedFile = {
+                    mimeType: file.type,
+                    data: base64Data,
+                    name: file.name
+                };
+                fileNameSpan.textContent = file.name;
+                filePreview.classList.remove('hidden');
+                chatInput.focus();
             };
-            recognition.onresult = (e) => {
-                const text = e.results[0][0].transcript;
-                appendChat(`Voice Input: ${text}`);
-                voiceBtn.classList.remove('text-red-500');
+            reader.readAsDataURL(file);
+        });
+
+        // Remove Attached File
+        removeFileBtn.addEventListener('click', () => {
+            attachedFile = null;
+            fileInput.value = '';
+            filePreview.classList.add('hidden');
+        });
+
+        // Handle Dashboard Score Updates Dynamically
+        function updateDashboardScores(scores) {
+            const scoreMap = {
+                'health': { id: 'health', val: scores.health },
+                'nutrition': { id: 'nutrition', val: scores.nutrition },
+                'fitness': { id: 'fitness', val: scores.fitness },
+                'sleep': { id: 'sleep', val: scores.sleep },
+                'hydration': { id: 'hydration', val: scores.hydration }
             };
-            recognition.onerror = () => voiceBtn.classList.remove('text-red-500');
-        } else {
-            voiceBtn.onclick = () => alert("Voice recognition is not supported in this browser.");
-            voiceBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+            for (const key in scoreMap) {
+                if (scoreMap[key].val !== undefined) {
+                    const ring = document.getElementById(`score-ring-${scoreMap[key].id}`);
+                    const text = document.getElementById(`score-text-${scoreMap[key].id}`);
+                    const card = document.getElementById(`card-${scoreMap[key].id}`);
+                    
+                    if (ring && text && card) {
+                        const value = Math.min(100, Math.max(0, scoreMap[key].val));
+                        text.textContent = value;
+                        
+                        // Calculate SVG Offset (Circumference is 251.2)
+                        const circumference = 251.2;
+                        const offset = circumference - (circumference * value / 100);
+                        ring.style.strokeDashoffset = offset;
+                        
+                        // Add glow effect temporarily to show it updated
+                        card.classList.add('shadow-[0_0_30px_rgba(20,184,166,0.3)]', 'border-primary/50');
+                        setTimeout(() => {
+                            card.classList.remove('shadow-[0_0_30px_rgba(20,184,166,0.3)]', 'border-primary/50');
+                        }, 2000);
+                    }
+                }
+            }
         }
+
+
+        // Handle Connect Button
+        connectBtn.addEventListener('click', () => {
+            // Visual feedback: Connected (Green)
+            statusDot.classList.remove('bg-red-500', 'shadow-[0_0_8px_rgba(239,68,68,0.6)]');
+            statusDot.classList.add('bg-green-500', 'shadow-[0_0_8px_rgba(34,197,94,0.6)]');
+            connectBtn.textContent = 'Connected';
+            connectBtn.classList.add('bg-primary/20', 'text-primary', 'border-primary/50');
+            connectBtn.classList.remove('bg-white/10', 'text-white', 'border-white/5');
+            apiKeyInput.type = 'password'; // Ensure it stays hidden
+            apiKeyInput.classList.add('w-20', 'opacity-50'); // shrink it visually when connected
+        });
+
+        // Helper to append messages to UI
+        function appendMessage(text, sender = 'user') {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'flex space-x-3 w-full animate-[float_0.3s_ease-out]';
+            
+            if (sender === 'user') {
+                wrapper.classList.add('flex-row-reverse', 'space-x-reverse');
+                wrapper.innerHTML = `
+                    <div class="w-6 h-6 rounded-full bg-slate-700 flex-shrink-0 border border-white/10 overflow-hidden mt-1">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alex&backgroundColor=transparent" alt="User">
+                    </div>
+                    <div class="flex-1 max-w-[85%]">
+                        <p class="text-sm text-white bg-white/10 p-3 rounded-2xl rounded-tr-none border border-white/10 shadow-sm float-right">
+                            ${text}
+                        </p>
+                    </div>
+                `;
+            } else {
+                // AI markdown simple parser for bolding
+                const formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>');
+                wrapper.innerHTML = `
+                    <div class="w-6 h-6 rounded-md bg-gradient-to-tr from-primary to-accent flex-shrink-0 flex items-center justify-center mt-1 shadow-lg shadow-primary/20">
+                        <i data-lucide="bot" class="text-white w-3 h-3"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm text-slate-200 leading-relaxed bg-white/5 p-3 rounded-2xl rounded-tl-none border border-white/5 shadow-sm">
+                            ${formattedText}
+                        </p>
+                    </div>
+                `;
+            }
+            
+            chatContainer.insertBefore(wrapper, loadingIndicator);
+            lucide.createIcons();
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // Call Gemini API
+        async function fetchGeminiResponse(prompt) {
+            loadingIndicator.classList.remove('hidden');
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            
+            // Advanced System Prompt to enforce JSON score updates
+            const systemPrompt = `You are HealthMaster, an advanced AI Health & Nutrition copilot. 
+            Analyze uploaded medical reports, track nutrition, and provide actionable plans. 
+            IMPORTANT: If the user uploads a report or asks to update stats, you MUST provide a JSON block at the VERY END of your response to update their dashboard. 
+            Format exactly like this, no backticks inside the JSON, and strictly use these keys:
+            \`\`\`json
+            {"health": 85, "nutrition": 90, "fitness": 80, "sleep": 95, "hydration": 88}
+            \`\`\`
+            Only include the JSON if there is data to update. Otherwise, just chat normally.`;
+
+            // Prepare Request Parts
+            const requestParts = [{ text: prompt }];
+            
+            if (attachedFile) {
+                requestParts.push({
+                    inlineData: {
+                        mimeType: attachedFile.mimeType,
+                        data: attachedFile.data
+                    }
+                });
+                // Auto-append instruction if file is attached
+                requestParts[0].text += "\n[System: User has attached a file. Please analyze it, provide suggestions, and output the updated score JSON at the end.]";
+            }
+
+            const payload = {
+                contents: [{ parts: requestParts }],
+                systemInstruction: { parts: [{ text: systemPrompt }] }
+            };
+
+            const delays = [1000, 2000, 4000, 8000, 16000];
+            let attempt = 0;
+            let success = false;
+            let aiText = "I couldn't process that.";
+
+            while (attempt <= 5 && !success) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`API Error: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || aiText;
+                    success = true;
+                } catch (error) {
+                    if (attempt < 5) {
+                        await new Promise(resolve => setTimeout(resolve, delays[attempt]));
+                        attempt++;
+                    } else {
+                        aiText = "Sorry, I am having trouble connecting to the network right now. Please try again later.";
+                        console.error(error);
+                        break;
+                    }
+                }
+            }
+
+            // Extract JSON scores from AI response if present
+            const jsonRegex = /```json\s*([\s\S]*?)\s*```/;
+            const match = aiText.match(jsonRegex);
+            let displayMessage = aiText;
+
+            if (match) {
+                try {
+                    const newScores = JSON.parse(match[1]);
+                    updateDashboardScores(newScores);
+                    // Remove the raw JSON block from the chat message
+                    displayMessage = aiText.replace(jsonRegex, '').trim();
+                } catch(e) {
+                    console.error("Could not parse health scores JSON", e);
+                }
+            }
+
+            // Clear file attachment
+            if (attachedFile) {
+                attachedFile = null;
+                fileInput.value = '';
+                filePreview.classList.add('hidden');
+            }
+
+            loadingIndicator.classList.add('hidden');
+            appendMessage(displayMessage, 'ai');
+        }
+
+        // Handle Send Action
+        function handleSend() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+
+            appendMessage(text, 'user');
+            chatInput.value = '';
+            chatInput.style.height = 'auto'; // reset height
+            
+            fetchGeminiResponse(text);
+        }
+
+        sendBtn.addEventListener('click', handleSend);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSend();
+            }
+        });
+
+        // Handle Suggested Prompts
+        document.querySelectorAll('.prompt-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const text = this.innerText;
+                chatInput.value = text;
+                handleSend();
+            });
+        });
+
+        // --- Simple Particle Background Effect (Canvas) ---
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function initParticles() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            particles = [];
+            for (let i = 0; i < 50; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    size: Math.random() * 2 + 0.5,
+                    speedX: Math.random() * 0.5 - 0.25,
+                    speedY: Math.random() * 0.5 - 0.25,
+                    opacity: Math.random() * 0.5 + 0.1
+                });
+            }
+        }
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = '#14B8A6'; // Primary color
+            
+            particles.forEach(p => {
+                ctx.globalAlpha = p.opacity;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Move
+                p.x += p.speedX;
+                p.y += p.speedY;
+                
+                // Wrap
+                if (p.x < 0) p.x = width;
+                if (p.x > width) p.x = 0;
+                if (p.y < 0) p.y = height;
+                if (p.y > height) p.y = 0;
+            });
+            requestAnimationFrame(drawParticles);
+        }
+
+        window.addEventListener('resize', initParticles);
+        initParticles();
+        drawParticles();
+
     </script>
 </body>
+</html>
